@@ -1,5 +1,3 @@
-module fem
-
 using Intervals
 using Plots
 
@@ -151,7 +149,4 @@ function main(n)
     nothing
 end
 
-end
-
-
-fem.main(1000)
+main(500)
