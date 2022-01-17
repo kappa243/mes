@@ -1,0 +1,156 @@
+\documentclass[12pt,a4paper]{mwart}
+
+\usepackage{lmodern}
+\usepackage[T1]{polski}
+\usepackage[utf8]{inputenc}
+
+\usepackage[a4paper,
+            tmargin=2cm,
+            bmargin=2cm,
+            lmargin=2cm,
+            rmargin=2cm,
+            bindingoffset=0cm]{geometry}
+
+\usepackage{tocloft}
+\usepackage{hyperref}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{booktabs}
+
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\begin{document}
+
+\title{Potencjał elektryczny}
+\author{Szymon Idec}
+\date{\today}
+\maketitle
+
+\section{Sformułowanie silne}
+\begin{equation*}
+    \begin{gathered}
+    \frac{\mathrm{d}^2\phi}{\mathrm{d}x^2} = -\frac{\rho}{\epsilon_r} \\
+    \phi'(0) + \phi(0) = 5 \\
+    \phi(3) = 2 \\
+    \rho = 1 \\
+    \epsilon_r(x) =
+        \begin{cases}
+            10 & \text{dla $x \in [0, 1]$} \\
+            5  & \text{dla $x \in (1, 2]$} \\
+            1  & \text{dla $x \in (2, 3]$} \\
+        \end{cases}
+    \end{gathered}
+\end{equation*}
+
+Gdzie poszukiwana funkcja to $\phi(x)$.
+\begin{equation*}
+    [0, 3] \ni x \rightarrow \phi(x) \in \mathbb{R}
+\end{equation*}
+
+\newpage
+
+\section{Warunki brzegowe}
+Na prawym brzegu mamy niezerowy warunek Dirichleta. Szukamy więc rozwiązań postaci $\phi = w + \widetilde{u}$.
+Przyjmujemy $\widetilde{u} = 2e_n$
+
+Na lewym brzegu mamy warunek Robina. Otrzymujemy z niego $\phi'(0) = 5 - \phi(0)$.
+
+
+\section{Sformułowanie słabe}
+
+\begin{align*}
+    \phi'' &= -\frac{\rho}{\epsilon_r} \\
+    \phi''v &= -\frac{\rho}{\epsilon_r}v \\
+    \underbrace{\int_0^3\phi''v\mathrm{d}x}_\text{całk. przez części} &= -\int_0^3\frac{\rho}{\epsilon_r}v\mathrm{d}x \\
+    \phi'v'\big|_0^3 - \int_0^3\phi'v'\mathrm{d}x &= -\frac{1}{10}\int_0^1v\mathrm{d}x -\frac{1}{5}\int_1^2v\mathrm{d}x -\int_2^3v\mathrm{d}x \\
+    \phi'(3)\underbrace{v(3)}_{0} - \phi'(0)v(0) - \int_0^3\phi'v'\mathrm{d}x &= -\frac{1}{10}\int_0^1v\mathrm{d}x -\frac{1}{5}\int_1^2v\mathrm{d}x -\int_2^3v\mathrm{d}x \\
+    - (5-\phi(0))v(0) - \int_0^3\phi'v'\mathrm{d}x &= -\frac{1}{10}\int_0^1v\mathrm{d}x -\frac{1}{5}\int_1^2v\mathrm{d}x -\int_2^3v\mathrm{d}x \\
+    \underbrace{\phi(0)v(0) - \int_0^3\phi'v'\mathrm{d}x}_\text{$B(\phi, v)$} &= \underbrace{-\frac{1}{10}\int_0^1v\mathrm{d}x -\frac{1}{5}\int_1^2v\mathrm{d}x -\int_2^3v\mathrm{d}x + 5v(0)}_\text{$L(v)$} \\ 
+\end{align*}
+
+\begin{equation*}
+    \begin{gathered}
+        B(\phi, v) = B(w + \widetilde{u}, v) = B(w, v) + B(\widetilde{u}, v) \\
+        B(w,v) = L(v) - B(\widetilde{u}, v)
+    \end{gathered}
+\end{equation*}
+
+\section{Funkcje bazowe}
+\begin{equation*}
+    \begin{gathered}
+    e_i(x) =
+    \begin{cases}
+        \frac{x - x_{i-1}}{x_i - x_{i-1}} & \text{dla $x\in(x_{i-1},x_i)$} \\
+        \frac{x_{i+1} - x}{x_{i+1} - x_i} & \text{dla $x\in(x_i,x_{i+1})$}
+    \end{cases} \\
+    \end{gathered}
+\end{equation*}
+
+\section{Równanie w postaci macierzowej}
+
+\begin{equation*}
+    A \cdot U=B
+\end{equation*}
+
+\begin{equation*}
+    \left[
+    \begin{matrix}
+        B(e_0, e_0) & B(e_1, e_0) & \cdots & B(e_{n-1}, e_0) \\
+        B(e_0, e_1) & B(e_1, e_1) & \cdots & B(e_{n-1}, e_1) \\
+        \vdots      & \vdots & \ddots & \vdots \\
+        B(e_0, e_{n-1}) & B(e_1, e_{n-1}) & \cdots & B(e_{n-1}, e_{n-1})
+    \end{matrix}
+    \right]
+    \cdot
+    \left[
+    \begin{matrix}
+        u_0 \\
+        u_1 \\
+        \vdots \\
+        u_{n-1}
+    \end{matrix}
+    \right]
+    =
+    \left[
+    \begin{matrix}
+        L(e_0) - B(\widetilde{u}, e_0) \\
+        L(e_1) - B(\widetilde{u}, e_1) \\
+        \vdots \\
+        L(e_{n-1}) - B(\widetilde{u}, e_{n-1}))
+    \end{matrix}
+    \right]
+\end{equation*}
+
+\section{Uproszczenie wartości}
+\begin{equation*}
+    B(e_1, e_1) = B(e_2, e_2) = \dotsc = B(e_{n-1}, e_{n-1})
+\end{equation*}
+
+\begin{equation*}
+    \begin{gathered}
+        B(e_1, e_0) = B(e_2, e_1) = \dotsc = B(e_{n-1}, e_{n-2}) \\
+        B(e_{i+1}, e_i) = B(e_i, e_{i+1}) \\
+        i = 0, \dotsc, n-2
+    \end{gathered}
+\end{equation*}
+
+Każda całka $B(e_a, e_b)$ gdzie $|a-b|>1$ będzie równa 0, ponieważ przedziały
+funkcji bazowych się nie nakładają.
+
+W macierzy B odejmujemy tylko w ostatnim wierszu $B(\widetilde{u}, e_i)$, ponieważ
+w innych wierszach funkcje bazowe się nie nakładają ($\widetilde{u} = 2e_n$). 
+
+\end{document}
