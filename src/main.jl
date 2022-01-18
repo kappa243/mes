@@ -126,27 +126,17 @@ function main(n)
 
     B_mat[n, 1] -= B(shift, dshift, e(n - 1), de(n - 1), h * (n - 1), h * (n - 1 + 1))
 
+
     U_mat = A_mat \ B_mat
 
-
-    
     display(U_mat)
     display(A_mat)
     display(B_mat)
 
     u = x -> shift(x) + sum(U_mat[i, 1] * e(i - 1)(x) for i = 1:n)
 
-
-
-    der2(f, h) = x -> (f(x+h)+f(x-h)-2f(x))/h^2
-   
-    println(der2(u, h)(0.5))
-    println(der2(u, h)(1.5))
-    println(der2(u, h)(2.5))
-
-    display(plot(0.01:h:2.99, der2(u, h)))
     display(plot(0:h:3, u))
     nothing
 end
 
-main(500)
+main(10000)
